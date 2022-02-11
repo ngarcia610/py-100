@@ -32,6 +32,9 @@ game = True
 while game is True:
   # Capture user's choice
   user_choice = input("What do you choose? rock/paper/scissors\n").lower()
+  # Check input
+  if user_choice != 'rock' or 'paper' or 'scissors':
+    print("Please enter a valid choice.")
 
   # Capture computer's choice
   computer_choice = randint(1,3)

@@ -30,10 +30,10 @@ scissors = '''
 game = True
 
 while game is True:
-  # Capture user's choice
+  # User's choice
   user_choice = input("What do you choose? rock/paper/scissors\n").lower()
 
-  # Capture computer's choice
+  # Computer's choice
   computer_choice = randint(1,3)
   if computer_choice == 1:
     computer_choice = 'rock'
@@ -42,7 +42,7 @@ while game is True:
   else:
     computer_choice = 'paper'
 
-  # Game Logic
+  # Outcomes
   if user_choice == "rock":
     print(f"You chose: {rock}.")
     if computer_choice == "scissors":
@@ -57,7 +57,7 @@ while game is True:
       print(f"The computer chose: {rock}")
       print("Tie game. Try again.")
 
-  if user_choice == "scissors":
+  elif user_choice == "scissors":
     print(f"You chose: {scissors}.")
     if computer_choice == "paper":
       print(f"The computer chose: {paper}")
@@ -71,7 +71,7 @@ while game is True:
       print(f"The computer chose: {scissors}")
       print("Tie game. Try again.")
 
-  if user_choice == "paper":
+  elif user_choice == "paper":
     print(f"You chose: {paper}.")
     if computer_choice == "rock":
       print(f"The computer chose: {rock}")
@@ -84,3 +84,6 @@ while game is True:
     else:
       print(f"The computer chose: {paper}")
       print("Tie game. Try again.")
+
+  else:
+    print("Invalid choice!\nPlease enter rock, paper, or scissors.")

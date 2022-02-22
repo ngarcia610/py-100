@@ -15,6 +15,7 @@ nr_symbols = int(input(f"How many symbols would you like?\n"))
 nr_numbers = int(input(f"How many numbers would you like?\n"))
 
 # Generate letters, symbols, and numbers
+# random.choice() also works
 for _ in range(nr_letters):
   password.append(letters[random.randint(0,l_length - 1)])
 
@@ -25,5 +26,6 @@ for _ in range(nr_numbers):
   password.append(numbers[random.randint(0,n_length - 1)])
 
 # Shuffle the list
+# You could also use a for loop to do this
 password = ''.join(random.sample(password, len(password)))
 print(password)

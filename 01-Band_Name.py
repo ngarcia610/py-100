@@ -1,4 +1,4 @@
-# Day 1 Program - Band name generator
+# Day 1 - Band name generator
 
 #1. Create a greeting for your program.
 print("Hello")

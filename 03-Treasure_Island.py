@@ -1,4 +1,4 @@
-# Day 3 - Create a choice based adventure game.
+# Day 3 - Adventure Game
 print('''
 *******************************************************************************
           |                   |                  |                     |

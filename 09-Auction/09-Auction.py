@@ -1,5 +1,7 @@
 # Day 9 - Auction Program
 # Accept bids to a dictionary, then print the winner as key:value
+# Demonstrates basic dictionary use
+
 import os
 
 bids = {}

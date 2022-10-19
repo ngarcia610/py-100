@@ -1,8 +1,6 @@
 import random
 import os
-import art
-
-print(art.logo)
+from art import logo
 
 def deal_card():
   """Returns a random card from the deck."""
@@ -43,6 +41,8 @@ def clear_console():
   os.system(command)
 
 def play_game():
+  print(logo)
+
   user_cards = []
   computer_cards = []
   game_over = False

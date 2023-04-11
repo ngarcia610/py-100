@@ -1,15 +1,8 @@
-Create the screen
-
-Create and move a paddle
-
-Create another paddle
-
-Create the ball and make it move
-
-Detect collision with wall and bounce
-
-Detect collision with paddle
-
-Detect when paddle misses
-
-Keep score
+[x] Create the screen
+[x] Create and move a paddle
+[x] Create another paddle
+[x] Create the ball and make it move
+[x] Detect collision with wall and bounce
+[x] Detect collision with paddles
+[x] Detect when paddle misses
+[x] Keep score

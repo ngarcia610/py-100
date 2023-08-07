@@ -4,15 +4,24 @@ import random
 
 BACKGROUND_COLOR = "#B1DDC6"
 CARD_TIME = 3000
+current_card = {}
+to_learn = {}
 
 # Use Pandas to get words and translations from the csv
 # Use the 'orient records' parameter to pair the spanish and english words
 # This returns a list of dictionaries
 # https://pandas.pydata.org/pandas-docs/stable/reference/api/pandas.DataFrame.to_dict.html
-data = pandas.read_csv("data/spanish_words.csv")
-to_learn = data.to_dict(orient="records")
-current_card = {}
+# Look for the modified word list first, then the default list.
+try:
+    data = pandas.read_csv("data/words_to_learn.csv")
+except FileNotFoundError:
+    original_data = pandas.read_csv("data/spanish_words.csv")
+    to_learn = original_data.to_dict(orient="records")
+else:
+    to_learn = data.to_dict(orient="records")
 
+
+# ---------------------------- Card Behavior ------------------------------- #
 
 def next_card():
     global current_card, flip_timer
@@ -27,6 +36,14 @@ def flip_card():
     canvas.itemconfig(card_title, text="English", fill="white")
     canvas.itemconfig(card_word, text=current_card["English"], fill="white")
     canvas.itemconfig(card_background, image=card_back_img)
+
+def is_known():
+    # Removes the current card from the list.
+    to_learn.remove(current_card)
+    data = pandas.DataFrame(to_learn)
+    data.to_csv("data/words_to_learn.csv", index=False)
+    next_card()
+
 
 # ---------------------------- UI SETUP ------------------------------- #
 window = Tk()
@@ -54,7 +71,7 @@ unknown_button = Button(image=cross_image, highlightthickness=0, command=next_ca
 unknown_button.grid(row=1, column=0)
 
 check_image = PhotoImage(file="images/right.png")
-known_button = Button(image=check_image, highlightthickness=0, command=next_card)
+known_button = Button(image=check_image, highlightthickness=0, command=is_known)
 known_button.grid(row=1, column=1)
 
 # Fill in the title and word for the first time after the UI is created

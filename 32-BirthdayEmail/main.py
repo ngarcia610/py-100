@@ -33,5 +33,5 @@ if today_tuple in birthdays_dict:
       from_addr=my_email,
       to_addrs=birthday_person["email"],
       msg=message
-)
+    )
     connection.close()

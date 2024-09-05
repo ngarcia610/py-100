@@ -4,8 +4,13 @@
 import requests
 
 parameters = {
+<<<<<<< HEAD
   "amount": 10,
   "type": "boolean"
+=======
+   "amount": 10,
+   "type": "boolean"
+>>>>>>> 168b05f330c6f9434d4bfe092811f97301ccd290
 }
 
 response = requests.get(url="https://opentdb.com/api.php?amount=10", params=parameters)

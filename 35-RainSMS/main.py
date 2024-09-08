@@ -1,25 +1,18 @@
 # Create a program that will take a location,
 # and check the weather report for that location.
 # If rain is in the forecast, it will send an sms notification
-
 # Openweather is used for forecast
 # Twilio is used for SMS
-# Get the secrets and add them to .env
-# Import the secrets with dotenv
+
 import requests
 from twilio.rest import Client
 from dotenv import dotenv_values
 
-
-# Import Secrets for Email
-# secrets = dotenv_values(".env")
-# my_email = secrets["EMAIL"]
-# my_appkey = secrets["APPKEY"]
-
 OWM_Endpoint = "https://api.openweathermap.org/data/2.5/forecast"
-api_key = ""  # Openweather API key
-account_sid = ""  # Twilio Account ID
-auth_token = ""  # Twilio Auth Token
+secrets = dotenv_values(".env")
+api_key = secrets["APIKEY"]  # Openweather API key
+account_sid = secrets["SID"]  # Twilio Account ID
+auth_token = secrets["TOKEN"]  # Twilio Auth Token
 
 weather_params = {
     "lat": 39.952583,

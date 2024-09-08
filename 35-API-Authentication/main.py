@@ -4,8 +4,17 @@
 
 # Openweather is used for forecast
 # Twilio is used for SMS
+# Get the secrets and add them to .env
+# Import the secrets with dotenv
 import requests
 from twilio.rest import Client
+from dotenv import dotenv_values
+
+
+# Import Secrets for Email
+# secrets = dotenv_values(".env")
+# my_email = secrets["EMAIL"]
+# my_appkey = secrets["APPKEY"]
 
 OWM_Endpoint = "https://api.openweathermap.org/data/2.5/forecast"
 api_key = ""  # Openweather API key

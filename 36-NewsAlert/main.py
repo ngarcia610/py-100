@@ -9,13 +9,11 @@ from dotenv import dotenv_values
 
 secrets = dotenv_values(".env")
 
-STOCK_NAME = ""
-COMPANY_NAME = ""
-
-STOCK_ENDPOINT = ""
-NEWS_ENDPOINT = ""
-
-STOCK_API_KEY = ""
+STOCK_NAME = secrets["STOCK_NAME"]
+COMPANY_NAME = secrets["COMPANY_NAME"]
+STOCK_ENDPOINT = secrets["STOCK_ENDPOINT"]
+NEWS_ENDPOINT = secrets["NEWS_ENDPOINT"]
+STOCK_API_KEY = secrets["STOCK_API_KEY"]
 
 # Get yesterday's closing stock price
 # https://www.alphavantage.co/documentation/

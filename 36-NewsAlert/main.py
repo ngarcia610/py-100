@@ -12,8 +12,9 @@ secrets = dotenv_values(".env")
 STOCK_NAME = secrets["STOCK_NAME"]
 COMPANY_NAME = secrets["COMPANY_NAME"]
 STOCK_ENDPOINT = secrets["STOCK_ENDPOINT"]
-NEWS_ENDPOINT = secrets["NEWS_ENDPOINT"]
 STOCK_API_KEY = secrets["STOCK_API_KEY"]
+NEWS_ENDPOINT = secrets["NEWS_ENDPOINT"]
+NEWS_API_KEY = secrets["NEWS_API_KEY"]
 
 # Get yesterday's closing stock price
 # https://www.alphavantage.co/documentation/
@@ -43,5 +44,16 @@ difference = abs(float(yesterday_closing_price) - float(day_before_yesterday_clo
 diff_percent = (difference / float(yesterday_closing_price)) * 100
 
 # If the percentage is greater than 5, get news
-if diff_percent > 5:
-  print("Get News")
+if diff_percent > 5:  # Change to > 1 for testing
+  news_params = {
+    "apiKey": NEWS_API_KEY,
+    "qInTitle": COMPANY_NAME
+  }
+
+  news_response = requests.get(NEWS_ENDPOINT, params=news_params)
+  articles = news_response.json()["articles"]
+
+  # Using articles create a list that contains the first 3 articles
+  three_articles = articles[:3]
+
+  # Use Twilio to send a message with each article's title and description to your phone

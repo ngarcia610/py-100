@@ -3,8 +3,10 @@
 # Use the Spotify API to create a new playlist for that particular date
 # Search Spotify for each of those songs and add them to a playlist
 
-from bs4 import BeautifulSoup
 import requests
+import spotipy
+from bs4 import BeautifulSoup
+from spotipy.oauth2 import SpotifyOAuth
 
 date = input("Please enter the date. YYYY-MM-DD: ")
 URL = f"https://www.billboard.com/charts/hot-100/{date}/"
@@ -20,3 +22,16 @@ artists_list = [item.find(name="h3", id="title-of-a-story").parent.span.getText(
 
 print(songs_list)
 print(artists_list)
+
+sp = spotipy.Spotify(
+  auth_manager = SpotifyOAuth(
+    scope="playlist-modify-private",
+    redirect_uri="http://example.com",
+    client_id=<>,
+    client_secret=<>,
+    show_dialogue=True,
+    cache_path="token.txt",
+    username=<displayname>,
+  )
+)
+user_id = sp.current_user()["id"]

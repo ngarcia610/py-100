@@ -7,6 +7,10 @@ from dotenv import load_dotenv
 # Load environment variables from .env file
 load_dotenv()
 
+# SMTP_ADDRESS="smtp.gmail.com"
+# EMAIL_ADDRESS="your_email@email.com"
+# EMAIL_PASSWORD="your app password"
+
 # Practice
 # url = "https://appbrewery.github.io/instant_pot/"
 # Live Site

@@ -62,3 +62,14 @@ BUY_PRICE = 70
 
 if price_as_float < BUY_PRICE:
     message = f"{title} is on sale for {price}!"
+
+    # ====================== Send the email ===========================
+
+    with smtplib.SMTP(os.environ["SMTP_ADDRESS"], port=587) as connection:
+        connection.starttls()
+        result = connection.login(os.environ["EMAIL_ADDRESS"], os.environ["EMAIL_PASSWORD"])
+        connection.sendmail(
+            from_addr=os.environ["EMAIL_ADDRESS"],
+            to_addrs=os.environ["EMAIL_ADDRESS"],
+            msg=f"Subject:Amazon Price Alert!\n\n{message}\n{url}".encode("utf-8")
+        )

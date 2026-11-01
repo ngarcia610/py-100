@@ -1,55 +1,83 @@
 from selenium import webdriver
 from selenium.webdriver.common.by import By
+from selenium.common.exceptions import NoSuchElementException
+from time import sleep, time
 
-# Keep Chrome browser open after program finishes
+# Setup Chrome driver
 chrome_options = webdriver.ChromeOptions()
 chrome_options.add_experimental_option("detach", True)
-
-# Create and configure the Chrome webdriver
 driver = webdriver.Chrome(options=chrome_options)
 
-# Python.org
-driver.get("https://www.python.org/")
+driver.get("https://ozh.github.io/cookieclicker/")
 
-# Amazon's Instant Pot
-# driver.get("https://www.amazon.com/Instant-Pot-Plus-60-Programmable/dp/B01NBKTPTS/?th=1")
+# Wait for page to load just in case
+sleep(3)
 
-# By.CLASS_NAME (uses amazon.com website)
-# price_dollar = driver.find_element(By.CLASS_NAME, value="a-price-whole")
-# price_cents = driver.find_element(By.CLASS_NAME, value="a-price-fraction")
-# print(f"The price is {price_dollar.text}.{price_cents.text}")
+# Handle initial popups (cookies consent does not have to be clicked, but language does)
+print("Looking for language selection...")
+try:
+    # Select English language
+    language_button = driver.find_element(by=By.ID, value="langSelect-EN")
+    print("Found language button, clicking...")
+    language_button.click()
+    sleep(3) # more loading
+except NoSuchElementException:
+    print("Language selection not found")
 
-# Locating strategies for a single element
-# By.NAME
-search_bar = driver.find_element(By.NAME, value="q")
-# print(search_bar.get_attribute("placeholder"))
+# Wait for everything to settle
+sleep(2)
 
-# By.ID
-button = driver.find_element(By.ID, value="submit")
-# print(button.size)
+# Find the big cookie to click
+cookie = driver.find_element(by=By.ID, value="bigCookie")
 
-# By.CSS_SELECTOR
-documentation_link = driver.find_element(By.CSS_SELECTOR, value=".documentation-widget a")
-# print(documentation_link.text)
+# Get all store items (products 0-17)
+item_ids = [f"product{i}" for i in range(18)]
 
-# By.XPath
-bug_link = driver.find_element(By.XPATH, value='//*[@id="site-map"]/div[2]/div/ul/li[3]/a')
-# print(bug_link.text)
+# Set timers
+wait_time = 5
+timeout = time() + wait_time  # Check for purchases every 5 seconds
+five_min = time() + 60 * 5  # Run for 5 minutes
 
-# Finding multiple elements
-tier_1 = driver.find_elements(By.CLASS_NAME, value="tier-1")
+while True:
+    cookie.click()
 
-# Challenge: Print the event dates from python.org
-event_times = driver.find_elements(By.CSS_SELECTOR, value=".event-widget time")
-event_names = driver.find_elements(By.CSS_SELECTOR, value=".event-widget li a")
-events = {}
+    # Every 5 seconds, try to buy the most expensive item we can afford
+    if time() > timeout:
+        try:
+            # Get current cookie count
+            cookies_element = driver.find_element(by=By.ID, value="cookies")
+            cookie_text = cookies_element.text
+            # Extract number from text like "123 cookies"
+            cookie_count = int(cookie_text.split()[0].replace(",", ""))
 
-for n in range(len(event_times)):
-    events[n] = {
-        "time": event_times[n].text,
-        "name": event_names[n].text,
-    }
-print(events)
+            # Find all available products in the store
+            products = driver.find_elements(by=By.CSS_SELECTOR, value="div[id^='product']")
 
-# driver.close()
-driver.quit()
+            # Find the most expensive item we can afford
+            best_item = None
+            for product in reversed(products):  # Start from most expensive (bottom of list)
+                # Check if item is available and affordable (enabled class)
+                if "enabled" in product.get_attribute("class"):
+                    best_item = product
+                    break
+
+            # Buy the best item if found
+            if best_item:
+                best_item.click()
+                print(f"Bought item: {best_item.get_attribute('id')}")
+
+        except (NoSuchElementException, ValueError):
+            print("Couldn't find cookie count or items")
+
+        # Reset timer
+        timeout = time() + wait_time
+
+    # Stop after 5 minutes
+    if time() > five_min:
+        try:
+            cookies_element = driver.find_element(by=By.ID, value="cookies")
+            print(f"Final result: {cookies_element.text}")
+        except NoSuchElementException:
+            print("Couldn't get final cookie count")
+        break
+        

@@ -4,4 +4,4 @@
 __pycache__/
 
 creds.py
-*/env_*
+venv/
